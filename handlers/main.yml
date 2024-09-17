@@ -1,0 +1,27 @@
+---
+- name: Reread systemd configs
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+  when:
+    - run_handlers
+
+- name: Restart Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    state: restarted
+  when:
+    - run_handlers
+
+- name: Ensure Consul is running
+  ansible.builtin.systemd_service:
+    name: consul
+    state: started
+  when:
+    - run_handlers
+
+- name: Enable Consul
+  ansible.builtin.systemd_service:
+    name: consul
+    enabled: true
+  when:
+    - run_handlers

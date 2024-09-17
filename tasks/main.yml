@@ -1,0 +1,9 @@
+---
+- name: Prepare environment
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/01-prerequisite.yml"
+
+- name: Install Consul
+  ansible.builtin.include_tasks: "{{ ansible_os_family }}/02-install.yml"
+
+- name: Configure Consul
+  ansible.builtin.include_tasks: "config.yml"

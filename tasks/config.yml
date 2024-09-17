@@ -1,0 +1,22 @@
+---
+- name: Add config for Consul
+  ansible.builtin.copy:
+    src: "{{ config }}"
+    dest: "/etc/consul.d/consul.hcl"
+    remote_src: false
+    owner: consul
+    mode: u=rwX,g=rX,o=rX
+  notify:
+    - Restart Consul
+    - Ensure Consul is running
+
+- name: Add systemd config for Consul
+  ansible.builtin.template:
+    src: "consul.service"
+    dest: "/etc/systemd/system/consul.service"
+    mode: u=rwX,g=rX,o=rX
+  notify:
+    - Reread systemd configs
+    - Restart Consul
+    - Ensure Consul is running
+    - Enable Consul
